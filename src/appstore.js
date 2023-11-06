@@ -2,7 +2,7 @@ export * from 'accelon23/src/store.js';
 import {ACC23 as _ACC23} from 'accelon23/src/appconst.js'
 
 _ACC23.CacheName='v1::sz'
-_ACC23.AppVer='23.11.3';
+_ACC23.AppVer='23.11.5';
 _ACC23.AppName='sz',
 _ACC23.AppTitle='平行藏'
 _ACC23.allptks= ['cs','sc','cs-zh','cs-xsq','cs-yh','cs-ccc','cs-hz','cs-kmj','cs-pku','cs-mm'];
@@ -10,7 +10,7 @@ _ACC23.selectedptks=['sc','cs-xsq','cs-yh'];
 _ACC23.activeptk='cs-xsq';
 _ACC23.MAXFAVORITE=100;
 _ACC23.ITEMPERPAGE=5;
-_ACC23.BUILTINFAVORITE=["d24.6:4","d16.218:2","m3.29:6","m142.379:30","m106.73:13","a2.21"];
+_ACC23.favorites=["d24.6:4","d16.218:2","m3.29:6","m142.379:30","m106.73:13","a2.21"];
 _ACC23.painters={};
 _ACC23.ptkinfo={
         'cs':'巴利原文(第六次結集)24MB',
