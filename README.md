@@ -34,8 +34,3 @@
 - 第三層：緬甸第六次結集的段落號。
 - 第四層：句，平行語料的最小單元。
 
-## 軟件模塊
-- 前端工具 [Esbuild](https://esbuild.github.io/), [Svelte](https://svelte.dev)
-- [Pitaka](https://github.com/accelon/pitaka) 全文數據庫軟件
-- [Provident Pali](https://github.com/dhamma/provident-pali) 儉約巴利轉寫
-- [無損簡體](https://github.com/accelon/lossless-simplified-chinese)

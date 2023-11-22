@@ -70,7 +70,8 @@ body{
 .sent{cursor:pointer;}
 
 .slidercaption {color:black;pointer-events: none;user-select: none;}
-.partext{border-left:3px solid black;}
+.parlabel {font-size:115%;padding-left:3px}
+.partext{border-left:3px solid black}
 .parselected {border-left:3px solid gray}
 .partext0 {color:var(--depthcolor0)}
 .partext1 {color:var(--depthcolor1)}
