@@ -20,6 +20,7 @@ body{
   --depthcolor8  : hsl(330,70%,50%);
   --depthcolor9  : hsl(360,70%,50%); 
   --selected : rgb(96, 96, 96);
+  --selected-color : hsl(40,70%,50%);
   --highlightline : rgba(30,30,30);
   --track-bg:gray;
   --hyperlink: greenyellow;
