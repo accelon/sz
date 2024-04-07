@@ -2,7 +2,7 @@ export * from 'accelon23/src/store.js';
 import {ACC23 as _ACC23} from 'accelon23/src/appconst.js'
 
 _ACC23.CacheName='v1::sz'
-_ACC23.AppVer='24.3.12';
+_ACC23.AppVer='24.4.7';
 _ACC23.AppName='sz',
 _ACC23.AppTitle='平行藏'
 _ACC23.repoLink="https://github.com/accelon/sz/"
@@ -24,7 +24,7 @@ _ACC23.ptkinfo={
         'cs-bb':'菩提比丘等11MB',
         'cs-kmj':'日本語（光明寺経藏）20MB',
         'cs-pku':'北大法胜 2MB',
-        'cs-mm':'緬譯ဗမာစာ(緬甸宗教局)29MB',
+        'cs-mm':'緬譯ဗမာစာ(緬甸宗教局)42MB',
 }
 
 export const ACC23=_ACC23;
