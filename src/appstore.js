@@ -2,7 +2,7 @@ export * from 'accelon23/src/store.js';
 import {ACC23 as _ACC23} from 'accelon23/src/appconst.js'
 
 _ACC23.CacheName='v1::sz'
-_ACC23.AppVer='24.4.7';
+_ACC23.AppVer='25.2.7';
 _ACC23.AppName='sz',
 _ACC23.AppTitle='平行藏'
 _ACC23.repoLink="https://github.com/accelon/sz/"
