@@ -7,15 +7,17 @@
 [平行藏手機版](https://nissaya.cn/sz/)
 
 ## 數字底本及對應存庫
-- [VRI巴利三藏](https://tipitaka.org/)  [Github存庫](https://github.com/accelon/cs)
-- [SuttaCentral 英譯](https://suttacentral.net)  [Github存庫](https://github.com/accelon/sc)
-- [元亨寺 南傳大藏經](https://www.cbeta.org) [Github存庫](https://github.com/accelon/cb-n)
-- [光明寺経蔵](https://komyojikyozo.web.fc2.com/) [Github存庫](https://github.com/accelon/kmj)
-- [巴利佛典译丛](https://github.com/sutra-mobi/nikaya/tree/master/hzfxy) [Github存庫](https://github.com/accelon/sutra-mobi)
-- [蕭式球](http://www.earlybuddhism.org.hk/?wp=3.1) [Github存庫](https://github.com/accelon/xsq)
-- [莊春江](https://agama.buddhason.org/) [Github存庫](https://github.com/accelon/ccc)
-- [菩提比丘](https://wisdomexperience.org/) [Github存庫](https://github.com/accelon/bb)
-- [緬譯 Tipitaka Myanmar](https://play.google.com/store/apps/details?id=mm.pndaza.tipitakamyanmar) [Github存庫](https://github.com/accelon/cs-mm)
+- [VRI巴利三藏](https://tipitaka.org/) cs [Github存庫](https://github.com/accelon/cs)
+- [SuttaCentral 英譯](https://suttacentral.net) sc [Github存庫](https://github.com/accelon/sc)
+- [元亨寺 南傳大藏經](https://www.cbeta.org) cs-yh [Github存庫](https://github.com/accelon/cb-n)
+- [光明寺経蔵](https://komyojikyozo.web.fc2.com/) cs-kmj [Github存庫](https://github.com/accelon/kmj)
+- [巴利佛典译丛](https://github.com/sutra-mobi/nikaya/tree/master/hzfxy) cs-hz [Github存庫](https://github.com/accelon/sutra-mobi)
+- [蕭式球](http://www.earlybuddhism.org.hk/?wp=3.1) cs-xsq [Github存庫](https://github.com/accelon/xsq)
+- [莊春江](https://agama.buddhason.org/) cs-ccc [Github存庫](https://github.com/accelon/ccc)
+- [菩提比丘](https://wisdomexperience.org/) cs-bb [Github存庫](https://github.com/accelon/bb)
+- [緬譯 Tipitaka Myanmar](https://play.google.com/store/apps/details?id=mm.pndaza.tipitakamyanmar) cs-mm [Github存庫](https://github.com/accelon/cs-mm)
+- 北京大學 cs-mm [Github存庫](https://github.com/accelon/cs-pku)
+
 
 ## 數字加工步驟
 - 轉換文件格式並統一為緬甸版段落號碼。
