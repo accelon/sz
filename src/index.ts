@@ -1,4 +1,3 @@
-console.log('init')
 import {landscape} from './appstore.js'
 import { settings,loadSettings } from 'accelon23/src/savesettings.js';
 import {initStore} from 'accelon23/src/store.js'

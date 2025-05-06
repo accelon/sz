@@ -1,45 +1,12 @@
 <script>
-import {openPtk} from 'ptk'
-import {downloadToCache,ptkInCache} from 'ptk/platform/downloader.js'
 import {registerServiceWorker} from 'ptk/platform/pwa.js'
 import Main from 'accelon23/src/main.svelte'
 import Newbie from 'accelon23/src/newbie.svelte'
-import {landscape,welcoming,selectedptks,availableptks} from './appstore.js'
+import {landscape,welcoming} from './appstore.js'
 import {ACC23} from 'accelon23/src/appconst.js'
-
+import {init} from 'accelon23/src/appinit.js'
 let loaded=false,app,bootmessage='';
-registerServiceWorker();
-
-const openptk=async name=>{
-    bootmessage='try to download '+name+'.ptk'
-    const res=await downloadToCache(ACC23.CacheName,name+'.ptk',msg=>{
-        bootmessage=name+'.ptk '+msg;
-    })
-    
-    const buf=await res.arrayBuffer();
-    const ptk=await openPtk(name,new Uint8Array(buf));
-    return ptk;
-}
-const init=async ()=>{
-    const toload=await ptkInCache(ACC23.CacheName);
-    const ptkss=$selectedptks;
-    
-    for (let i=0;i<ptkss.length;i++) {
-        if (!~toload.indexOf(ptkss[i])) {
-            toload.push(ptkss[i]);
-        }
-    }    
-    availableptks.set(  ACC23.allptks.filter(it=>~toload.indexOf(it))); // keep the order
-    app.style.height=window.innerHeight+'px';
-    app.style.width=window.innerWidth+'px';   
-    for (let i=0;i<toload.length;i++) {
-        
-        const ptk=await openptk(toload[i])
-        if (toload[i]=='sz') console.log(ptk)
-    }
-    bootmessage='done'
-    loaded=true;
-}
+if (ACC23.redbeanport!==location.port) registerServiceWorker();
 
 setTimeout(()=>init(),1000); //prevent index.js:8217 Uncaught (in promise) TypeError: Cannot read properties of undefined (reading '0')
 const orientation=(ls)=>{

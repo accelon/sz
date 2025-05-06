@@ -2,7 +2,7 @@ export * from 'accelon23/src/store.js';
 import {ACC23 as _ACC23} from 'accelon23/src/appconst.js'
 
 _ACC23.CacheName='v1::sz'
-_ACC23.AppVer='25.3.20';
+_ACC23.AppVer='25.5.6';
 _ACC23.AppName='sz',
 _ACC23.AppTitle='平行藏'
 _ACC23.repoLink="https://github.com/accelon/sz/"
@@ -26,5 +26,5 @@ _ACC23.ptkinfo={
         'cs-pku':'北大法胜 2MB',
         'cs-mm':'緬譯ဗမာစာ(緬甸宗教局)42MB',
 }
-
+_ACC23.redbeanport="2555"
 export const ACC23=_ACC23;

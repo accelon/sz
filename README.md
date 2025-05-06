@@ -34,3 +34,7 @@
 - 第三層：緬甸第六次結集的段落號。
 - 第四層：句，平行語料的最小單元。
 
+
+## deploy
+    build-redbean to create dist/sz.com
+    deploy sz.com and *.ptk
