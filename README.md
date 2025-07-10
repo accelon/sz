@@ -6,6 +6,12 @@
 ## 線上演示
 [平行藏手機版](https://nissaya.cn/sz/)
 
+## 產生 obsidian 格式
+
+    node md [集名]
+    
+集名 缺省為 cs
+
 ## 數字底本及對應存庫
 - [VRI巴利三藏](https://tipitaka.org/) cs [Github存庫](https://github.com/accelon/cs)
 - [SuttaCentral 英譯](https://suttacentral.net) sc [Github存庫](https://github.com/accelon/sc)
@@ -40,3 +46,4 @@
 ## deploy
     build-redbean to create dist/sz.com
     deploy sz.com and *.ptk
+
