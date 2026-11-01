@@ -18,9 +18,10 @@
 ## 1. 這個工作區做什麼
 
 - 產出：`sz.adb`（`dbname=sz`、`dbcname=新三藏`）
-- 來源：**巴利三藏平行文本**（Pali Canon 的巴利原文，以及對應的漢譯平行文本）。
-  版本、路徑與取用範圍在 `docs/steps.md` 定案；目前可參考
-  `D:\2023\sc`（SuttaCentral bilara-data 產生的巴利／英譯）與 `D:\2026\sc`（SC↔PTS 對照）。
+- 來源：**巴利三藏平行文本**（Pali Canon 的巴利原文，以及對應的漢譯平行文本；
+  共**十種譯本**，全部集中在本工作區處理）。版本、路徑與取用範圍在 `docs/steps.md` 定案；
+  目前可參考 `D:\2023\sc`（SuttaCentral bilara-data 產生的巴利／英譯）與
+  `D:\2026\sc`（SC↔PTS 對照）。
 - 成品位置：`D:\accelon3\sz.adb`（**不是** `dist/`、也不是 `build/`）
 - 文件：本庫的 `docs/` 或 `README.md`；母區 `docs/adb/` 只放索引／說明，細節以本區為準
 
