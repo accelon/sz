@@ -35,6 +35,19 @@
 ⑥ 驗證＋記帳（母區 adb-version-log.md、deploy/adb-notes.json）
 ```
 
+## 3.1 全文索引可選（2026-11-02）
+
+有些語種（例如某些巴利／譯本）還沒有可用的 tokenizer。建置時可以**不建全文索引**：
+
+- `authorAdb({ fullTextIndex: false })`，或 `tei-pack` 加 `--no-index`。
+- 仍保留 `source`／`tags`／`tables`／`attributes`／`caches`，**VA 照 tokenizer 的
+  token 數前進**，所以頁 id、目錄、標籤位置都讀得到；只是沒有 `tokens` 容器
+  （沒有 token 清單與 postings），搜尋會是 0 筆。
+- 閱讀器（accelon26）仍可開檔、看正文、目錄、頁碼；搜尋摘要會顯示
+  「此資料庫未建全文索引（建置時略過）」。
+- 建置快、檔案小；等該語種的 tokenizer 做好後，再重跑有索引的版本即可。
+- **注意**：不要用「空 tokenizer」假裝有索引；沒有索引就明確不建，讓閱讀器知道。
+
 ## 4. 待辦
 
 - [ ] 來源版本與範圍
