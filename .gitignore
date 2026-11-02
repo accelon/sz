@@ -3,12 +3,18 @@ out/
 build/
 dist/
 
-# 大型成品／下載快取
+# 大型成品／下載快取（accelon26/ 是本機書庫：adb 不進版控，exe 是 hardlink）
 *.adb
+accelon26/accelon26.exe
 *.zip
 *.7z
 data/_zips/
 raw/_zips/
+
+# 生成物：可以由 D:\2023 的來源重建（data/cs 133 MB、data/cs-decomp 16 MB…）
+# 但 data/cs-index/ 是「外部化」的成果（異文／頁碼／書名／SC 編號），要進版控
+data/*
+!data/cs-index/
 
 # 本機設定與暫存
 .local/
