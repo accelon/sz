@@ -40,9 +40,16 @@ const IAST_BOOKS = new Set<string>();
   }
 }
 
-/** 正文轉寫：注疏／根本經走 provident 解碼；由 books/ 產生的書已經是 IAST。 */
+/**
+ * 預設保留原本 provident→IAST 的輸出；`--cst-raw` 只做實驗：
+ * 它會改變行長／換行，實測 `cv` 等書的 line count 會和現有譯本對齊版不同。
+ * 要 CST-raw 且分句一致，必須用「現有行骨架」逐行換字，不能直接重跑轉檔。
+ */
+const RAW_CST = process.argv.includes('--cst-raw');
+
+/** 正文轉寫：CST-raw 模式只做 XML 轉義；舊模式才走 provident。 */
 const textOf = (s: string, plain: boolean, book?: string): string =>
-  book && IAST_BOOKS.has(book) ? escapeText(s) : providentText(s, plain);
+  RAW_CST ? escapeText(s) : (book && IAST_BOOKS.has(book) ? escapeText(s) : providentText(s, plain));
 
 /**
  * 四部尼柯耶的根本經（22 冊）＋ 注疏（義注／複注／再複注 28 冊）＋ 論書 2 冊。
@@ -209,6 +216,7 @@ function checkBooks(): CheckRow[] {
       ciBroken: 0,
       ciBad: [],
     };
+    if (!RAW_CST) {
     // 一致性：b（詞譜分段）＋ j（連音編號）→ 詞譜 → 正詞，要對得上夾文；
     // 另一條獨立路徑是把夾文用 fromIAST 轉回儉約巴利再比。兩邊相等才算過。
     for (const m of o.join('\n').matchAll(/<詞 b="([^"]*)" j="([^"]*)">([^<>]*)<\/詞>/g)) {
@@ -238,9 +246,10 @@ function checkBooks(): CheckRow[] {
         row.ciBad.push(`夾文回不去：${display} → ${fromDisplay}`);
       }
     }
+    }
     // 期望的詞譜數：正文（非節點名字）裡的詞譜詞。名字裡的詞譜只轉 IAST，不建 `<詞>`。
     // 另外 `data/cs-decomp/splits.tsv` 會**補**上沒有詞譜的詞，所以實際數只會多、不會少。
-    if (row.ci < expectCi && row.ciBad.length < 5) {
+    if (!RAW_CST && row.ci < expectCi && row.ciBad.length < 5) {
       row.ciBad.push(`詞譜數 ${row.ci} < 正文詞譜詞 ${expectCi}（有掉字）`);
     }
     rows.push(row);
@@ -255,7 +264,8 @@ function printCheck(rows: CheckRow[]): boolean {
   const same = <T,>(p: [T, T]) => p[0] === p[1];
   console.log('書      行數        段        塊        字母數      詞譜  問題');
   for (const r of rows) {
-    const good = same(r.lines) && same(r.segs) && same(r.chunks) && same(r.words) && !r.ciBad.length;
+    const good = same(r.lines) && same(r.segs) && same(r.chunks)
+      && (RAW_CST || same(r.words)) && !r.ciBad.length;
     if (!good) ok = false;
     console.log(
       r.book.padEnd(6),

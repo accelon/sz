@@ -2,12 +2,13 @@
 /**
  * 把 `data/<db>/` 的文字打包成 **不建全文索引** 的 adb，放進 `accelon26/`。
  *
- *   bun run src/pack.ts            # 全部譯本
+ *   bun run src/pack.ts            # 全部譯本（預設建全文索引；作者 2026-11-02 定案）
  *   bun run src/pack.ts cs-mm      # 只打一個
+ *   bun run src/pack.ts sc --no-index # 特殊情況才不建索引
  *
- * 為什麼不建索引（作者 2026-11-02）：巴利／緬／日這些語種的中文 tokenizer 還沒定，
- * 先只做閱讀（正文、標記、目錄資料都在），搜尋留給有索引的庫。`authorAdb({fullTextIndex:false})`
- * 會照樣產生 `source`／`tags`／`tables`／`attributes`／`caches`，只是沒有 `tokens`。
+ * 十個 adb 的 token 必須獨立：每個庫用自己的語言／翻譯風格建 tokenizer 與 stoplist。
+ * `authorAdb` 仍會產生 `source`／`tags`／`tables`／`attributes`／`caches`；建索引時多 `tokens`。
+ * `--no-index` 只保留給「tokenizer 還沒定」的實驗庫，不用於 sz 的十個譯本。
  * （見 `docs/steps.md` §4.1）
  *
  * 行序：`00.xml`（宣告）→ 每本書 `<書>.xml` → 它的註文 `<書>-fn.xml`。
@@ -19,11 +20,13 @@ import { authorAdb } from '../../adb-converter/ts/src/adbauthor';
 import { MAXLINELEN } from '../../adb-converter/ts/src/index-builder';
 import { AdbReader, SyncIO } from '../../adb-converter/ts/src/accelon26/adb';
 import { canonOrder } from '../../adb-converter/ts/tools/off2accelon';
-import { PROFILES } from './profiles';
+import { PARALLEL_GROUP, PROFILES } from './profiles';
 
 const ROOT = join(import.meta.dir, '..');
 const DATA = join(ROOT, 'data');
 const OUT = join(ROOT, 'accelon26');
+/** 巴利庫的句讀與 ASCII 標點：只佔 VA，不進 token 索引。 */
+const PALI_PUNCT = '।॥‘’“”!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~';
 
 const readLines = (p: string): string[] => {
   const t = readFileSync(p, 'utf8').replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n');
@@ -54,22 +57,50 @@ const bookLines = (dir: string): { lines: string[]; books: number; notes: number
   return { lines, books: books.length, notes: noteFiles };
 };
 
-const only = process.argv[2] && !process.argv[2].startsWith('--') ? process.argv[2] : '';
+const args = process.argv.slice(2);
+// 十個譯本都要全文索引（作者 2026-11-02 定案）；--no-index 只留給實驗。
+const withIndex = !args.includes('--no-index');
+// --from <dir>：從別的目錄打包（例如先驗收 data/cs-deva-iast，不覆蓋 data/cs）
+const fromAt = args.indexOf('--from');
+const fromDir = fromAt >= 0 ? args[fromAt + 1] ?? '' : '';
+const positional = args.filter((a, i) => !a.startsWith('--') && args[i - 1] !== '--from');
+const only = positional[0] ?? '';
 const names = Object.keys(PROFILES).filter((n) => !only || n === only);
 if (!names.length) {
   console.error(`沒有這個譯本：${only}`);
   process.exit(2);
 }
+if (fromDir && names.length !== 1) {
+  console.error('--from 只能配合單一譯本使用');
+  process.exit(2);
+}
 mkdirSync(OUT, { recursive: true });
+
+/**
+ * 把平行群寫進宣告行：`<集>` → `<集 p="cs">`（2026-11-02）。
+ *
+ * 閱讀器不再寫死「哪些庫可以互相對讀」，改看 `<集 p="上游 dbname">`；
+ * 這一群巴利譯本的上游是 `cs`（見 src/profiles.ts 的 PARALLEL_GROUP）。
+ * 已經有 `p=` 就不動（允許手動指定）。
+ */
+const withParallelGroup = (lines: string[], group: string | undefined): string[] => {
+  if (!group) return lines;
+  const i = lines.findIndex((l) => l.startsWith('<檔'));
+  if (i < 0) return lines;
+  if (/<集\s[^>]*\bp=/.test(lines[i])) return lines;
+  lines[i] = lines[i].replace('<集>', `<集 p="${group}">`);
+  return lines;
+};
 
 const t0 = Date.now();
 for (const name of names) {
-  const dir = join(DATA, name);
+  const dir = fromDir ? join(ROOT, fromDir) : join(DATA, name);
   if (!existsSync(dir)) {
     console.error(`${name}: 沒有 ${dir}（先跑 bun run src/off2accelon.ts ${name}）`);
     continue;
   }
-  const { lines, books, notes } = bookLines(dir);
+  const { lines: rawLines, books, notes } = bookLines(dir);
+  const lines = withParallelGroup(rawLines, PARALLEL_GROUP[name]);
   // 行長上限（8192 bytes = 4096 字）：超過會讓行表與內文錯開
   const over = lines.map((l, i) => [i + 1, l.length] as const).filter(([, n]) => n * 2 > MAXLINELEN);
   if (over.length) {
@@ -87,7 +118,17 @@ for (const name of names) {
     dbname: adbName,
     dbcname: profile.dbcname ?? name,
     lines,
-    fullTextIndex: false,
+    fullTextIndex: withIndex,
+    // cs／sc 的目錄編號／頁碼（1.1.1、0206…）不當詞索引；VA 照樣前進。
+    dropNumeric: name === 'cs' || name === 'sc',
+    // cs／sc 的句讀、引號與 ASCII 標點不當詞索引。
+    dropPunct: name === 'cs' || name === 'sc' ? PALI_PUNCT
+      : name === 'cs-mm' ? '၏၊။'
+      : name === 'cllk' ? 'ๆฯ'
+      : name === 'kmj' ? '、。・「」『』（）'
+      : undefined,
+    // 日文（kmj）：漢字／假名用 ICU 日文詞典切詞；中文庫不開。
+    japanese: name === 'kmj',
     log: (m) => console.log(`  ${m}`),
   });
 
@@ -97,13 +138,14 @@ for (const name of names) {
   writeFileSync(dest + '.new', buf);
   renameSync(dest + '.new', dest);
 
-  // 驗證：開回來看行數與容器（沒有 tokens 才對）
+  // 驗證：開回來看行數與容器（--index 時必須有 tokens；否則不該有）
   const r = await AdbReader.open(new SyncIO(dest));
   const containers = [...r.containers.keys()].join(',');
-  const ok = r.header.lineCount === lines.length && !r.containers.has('tokens');
+  const hasTokens = r.containers.has('tokens');
+  const ok = r.header.lineCount === lines.length && hasTokens === withIndex;
   console.log(
     `${name.padEnd(6)} ${books} 本${notes ? `＋${notes} 註文` : ''}  ${lines.length} 行  ` +
-      `${(buf.length / 1048576).toFixed(2)} MiB  容器 ${containers}  ${ok ? '✓' : '✗ 行數不符'}`,
+      `${(buf.length / 1048576).toFixed(2)} MiB  容器 ${containers}  ${ok ? '✓' : '✗ 行數／tokens 不符'}`,
   );
   if (!ok) process.exitCode = 1;
 }

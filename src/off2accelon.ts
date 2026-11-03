@@ -31,9 +31,7 @@ const BUILD = join(ROOT, 'out');
 if (import.meta.main) {
   const check = process.argv.includes('--check');
   const which = process.argv[2] && !process.argv[2].startsWith('--') ? process.argv[2] : 'all';
-  // cllk 這類來源不是 .off（沒有 glob），由自己的轉檔腳本處理
-  const offNames = Object.keys(PROFILES).filter((n) => PROFILES[n].glob);
-  const names = which === 'all' ? offNames : [which];
+  const names = which === 'all' ? Object.keys(PROFILES) : [which];
   let failed = false;
   for (const name of names) {
     const profile = PROFILES[name];

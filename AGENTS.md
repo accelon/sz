@@ -99,3 +99,19 @@ from han import HAN, han_chars, han_count
 - [ ] `adb-version-log.md` 有最後一列（sha／大小／buildTime／說明）
 - [ ] `deploy/adb-notes.json` 的說明是最新的
 - [ ] `README.md` 寫清楚「這個工作區已停用，維護看母區哪一份文件」
+
+## 8. 上游勘誤與 PR（2026-11-03 作者指示）
+
+- `deva master` 的**資料源**是 <https://github.com/accelon/tipitaka-xml>（VipassanaTech 的 fork，
+  作者 2026-11-03 指定）；上游是 <https://github.com/VipassanaTech/tipitaka-xml>。
+  本地 clone：`raw/cst-deva`（`origin`＝fork、`upstream`＝VipassanaTech）。
+- **有改動就發 PR 給上游**：`bun run src/pr-deva.ts`（先 `--dry-run` 看 commit）。
+  勘誤資料在 `src/errata.ts`；patch／PR 說明放 `out/`；已在 #2740 送過第一批。
+- 不要把未確認的「疑似錯誤」送上游；`<note>` 的變體讀法不動，stray visarga 只回報、不修。
+
+## 9. 札記（2026-11-03 作者指示）
+
+- **每次工作結束，在 `docs/journal/YYYY-MM-DD.md` 留一則**：做了什麼、為什麼、數字、沒做完的。
+  同一天延續就往下加，索引在 `docs/journal/README.md`。
+- 作者：年紀大了，多留點東西給後進；規格看 `docs/addressing.md`，原則看 `docs/insights.md`。
+

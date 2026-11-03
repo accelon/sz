@@ -13,7 +13,51 @@ export interface Profile extends ConvertOptions {
   adb?: string;
 }
 
+/**
+ * 平行文本群（2026-11-02 作者指示：不要寫死在閱讀器裡）。
+ *
+ * 值＝**上游／基準庫的 dbname**，pack 時寫進 `00.xml` 的 `<集 p="…">`。
+ * 這一批巴利譯本共用 CST 的 `段` 編號，基準是 `cs`（VRI／CST4）；閱讀器看到
+ * `<集 p="cs">` 就只把同群的庫列進「對讀」選單，不會把《原人歌》連到巴利藏。
+ */
+export const PARALLEL_GROUP: Record<string, string> = {
+  cs: 'cs',
+  'cs-split': 'cs',
+  'cs-mm': 'cs',
+  sc: 'cs',
+  yh: 'cs',
+  ccc: 'cs',
+  xsq: 'cs',
+  pku: 'cs',
+  hz: 'cs',
+  kmj: 'cs',
+  cllk: 'cs',
+};
+
 export const PROFILES: Record<string, Profile> = {
+  // 實驗（2026-11-03）：dn1–dn3 的正文先把複合詞拆成空白，reader 不必揹拆分詞庫。
+  // 來源是 data/cs 轉寫，見 src/cs-split-exp.ts；只供實驗，不取代 cs。
+  'cs-split': {
+    outDir: join(ROOT, 'data', 'cs-split'),
+    srcDir: '',
+    glob: '',
+    strip: '',
+    dbname: 'cs-split',
+    dbcname: '巴利（拆詞實驗）',
+    enname: 'Pali (word-split experiment)',
+    report: 'cs-split-report.txt',
+  },
+  // 巴利底本（data/cs 已由 cs2accelon 轉成 IAST／詞譜；pack 只負責打包）
+  cs: {
+    srcDir: 'D:/2023/cs/off',
+    outDir: join(ROOT, 'data', 'cs'),
+    glob: '*.cs.off',
+    strip: '.cs.off',
+    dbname: 'cs',
+    dbcname: '巴利三藏（VRI／CST4）',
+    enname: 'Pali Tipitaka (VRI)',
+    report: 'cs-report.txt',
+  },
   // 緬譯巴利藏（PnDaza app 的 HTML → off）。正文 `.mm.off`、註文 `-fn.off`。
   'cs-mm': {
     srcDir: 'D:/2023/cs-mm/off',
@@ -38,6 +82,17 @@ export const PROFILES: Record<string, Profile> = {
     enname: 'Pali Tipitaka (SuttaCentral)',
     report: 'sc-report.txt',
   },
+  // 英譯（SuttaCentral bilara-data）：`*.sc.off`；段號 `^n` 與 cs 相同（2026-11-03 新增）
+  'sc-en': {
+    srcDir: 'D:/2023/sc/off',
+    outDir: join(ROOT, 'data', 'sc-en'),
+    glob: '*.sc.off',
+    strip: '.sc.off',
+    dbname: 'sc-en',
+    dbcname: '英譯（SuttaCentral）',
+    enname: 'English Translation (SuttaCentral)',
+    report: 'sc-en-report.txt',
+  },
   // 元亨寺南傳大藏經（cb-n）：正文 `*.yh.off`、註文 `*.yh.tsv`（編號 → 注文）
   yh: {
     srcDir: 'D:/2023/cb-n/off',
@@ -61,7 +116,8 @@ export const PROFILES: Record<string, Profile> = {
   },
   // 蕭式球譯四部尼柯耶（cs-xsq）：檔名沒有中間名，`dn1.off` 這樣
   xsq: {
-    srcDir: 'D:/2023/cs-xsq/off',
+    // 2026-11-03：改用 D:/2023/xsq/off（有 ^n 段號）→ out/xsq-src（拉掉 ^m）；見 src/xsq-src.ts
+    srcDir: join(ROOT, 'out', 'xsq-src'),
     outDir: join(ROOT, 'data', 'xsq'),
     glob: '*.off',
     strip: '.off',
@@ -106,25 +162,15 @@ export const PROFILES: Record<string, Profile> = {
     dbcname: '光明寺日譯',
     report: 'kmj-report.txt',
   },
-  // 朱拉隆功泰譯巴利三藏（cllk）：來源是 html，不是 .off，
-  // 由 src/cllk2accelon.ts 轉檔（不放 glob，off2accelon 會跳過）。
+  // 朱拉隆功泰譯（cllk）：cllk2accelon.ts 直接讀 html，data/cllk 已是 Accelon XML
   cllk: {
     srcDir: 'D:/2023/cllk/html',
     outDir: join(ROOT, 'data', 'cllk'),
+    glob: '*.html',
+    strip: '.html',
     dbname: 'cllk',
-    dbcname: '朱拉隆功泰譯巴利三藏',
+    dbcname: '泰譯巴利三藏（朱拉隆功大學）',
     enname: 'Thai Tipitaka (MCU)',
     report: 'cllk-report.txt',
-  },
-  // 巴利底本（VRI／CST4 → 儉約巴利＋詞譜）：正文要轉 IAST、保留拆詞，
-  // 由 src/cs2accelon.ts 轉檔（不放 glob，off2accelon 會跳過）。
-  cs: {
-    srcDir: 'D:/2023/cs/off',
-    outDir: join(ROOT, 'data', 'cs'),
-    strip: '.cs.off',
-    dbname: 'cs',
-    dbcname: '巴利三藏（VRI／CST4）',
-    enname: 'Pali Tipitaka (VRI)',
-    report: 'cs-report.txt',
   },
 };

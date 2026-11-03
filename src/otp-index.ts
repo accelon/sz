@@ -17,7 +17,7 @@
 import { Database } from "bun:sqlite";
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { cst4rename } from "D:/2023/cs/src/cst4rename.js";
+import { cst4rename } from './cst-rename';
 import { ROOT } from "./profiles";
 
 const APP = "C:/Program Files/WindowsApps/BhanteSunanda.OpenTipitaka_7.0.0.0_x64__rgdt2xn07hd18/data/flutter_assets/shared";

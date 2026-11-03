@@ -14,7 +14,7 @@
 import { Database } from "bun:sqlite";
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { cst4rename } from "D:/2023/cs/src/cst4rename.js";
+import { cst4rename } from './cst-rename';
 import { ROOT } from "./profiles";
 
 const INDEX = join(ROOT, "data", "cs-index");

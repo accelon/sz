@@ -19,7 +19,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import { join } from "node:path";
 import { ROOT } from "./profiles";
 // @ts-expect-error 沒有型別宣告（純 JS）
-import { cst4rename } from "D:/2023/cs/src/cst4rename.js";
+import { cst4rename } from './cst-rename';
 
 const BOOKS = "D:/2023/cs/books";
 const RO = "D:/2023/cs/ro";

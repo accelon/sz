@@ -1,0 +1,20 @@
+檔案	書	種類	錯誤	正確	次數	現存	狀態	依據
+abh01m.mul.xml	ds	errata	/\u0903/g	;	11	11	open	
+s0202m.mul.xml	mn2	errata	मालुङ्क्यपुत्तस्स	मालुन्क्यपुत्तस्स	1	1	open	Māluṅkyaputtassa==>Mālunkyaputtassa
+s0302m.mul.xml	sn2	typo	anatiṇṇo	anitthiṇṇo	0	1	open	
+s0302m.mul.xml	sn2	typo	pavattetti	pavatteti	0	1	open	
+s0304m.mul.xml	sn4	errata	मालुङ्क्यपुत्तो	मालुन्क्यपुत्तो	1	1	open	'māluṅkyaputto ==> mālunkyaputto'
+s0305m.mul.xml	sn5	typo	sotapanno	sotāpanno	0	1	open	
+s0305m.mul.xml	sn5	typo	upekkilesā	upakkilesā	0	1	open	
+s0305m.mul.xml	sn5	errata	सकुणग्धि	सकुणग्घि	1	1	open	sakuṇagdhi ==> sakuṇagghi , typo see context
+s0402m2.mul.xml	an3	typo	abhiviniye	abhivinaye	0	1	open	
+s0402m2.mul.xml	an3	typo	nikāmalāmī	nikāmalābhī	0	1	open	
+s0402m3.mul.xml	an4	errata	मालुङ्क्यपुत्तो	मालुन्क्यपुत्तो	1	1	open	'māluṅkyaputto ==> mālunkyaputto'
+s0403m2.mul.xml	an6	typo	 viññā 	 viññāya 	0	1	open	
+s0403m3.mul.xml	an7	typo	atthahitāya	attahitāya	0	1	open	
+s0504m.mul.xml	iti	errata	/\u0903/g	;	6	6	open	
+s0508m.mul.xml	thag	errata	मालुङ्क्यपुत्तो	मालुन्क्यपुत्तो	1	1	open	māluṅkyaputto ==> mālunkyaputto'
+s0508m.mul.xml	thag	errata	मालुङ्क्यो	मालुन्क्यो 	1	1	open	māluṅkyo ==> Mālunkyo
+s0513m.mul.xml	ja1	errata	रमस्स्वज्‍ज	रमस्सवज्ज	1	1	open	Ramassvajja ==> Ramassavajja  , //  "ja519:9.4": "ramassvajja mayā saha.", did not fix
+s0519m.mul.xml	ne	errata	/\u0903/g	;	1	1	open	
+s0519m.mul.xml	ne	errata	भिक्खवेऋ	भिक्खवे	1	1	open	extra R at the end

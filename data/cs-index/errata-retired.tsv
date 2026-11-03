@@ -1,0 +1,45 @@
+檔案	書	種類	錯誤	正確	次數	檔註	依據	退役日期
+abh03m3.mul.xml	kv	errata	क्ण्टको	कण्टको	1		Kṇṭako==>Kaṇṭako , invalid combi in note	2026-11-03
+abh03m8.mul.xml	pt2	errata	चेतोपरियञाणंठ्चेतोपरियञाणं	चेतोपरियञाणं	1		cetopariyañāṇaṃṭhcetopariyañāṇaṃ ==> cetopariyañāṇaṃ 他心通	2026-11-03
+e0104n.att.xml	vs0a	errata	अचक्‍कबण्धोपि	अचक्कबन्धोपि	1	att of vism vol2	Acakkabaṇdhopi==>Acakkabandhopi	2026-11-03
+e0104n.att.xml	vs0a	errata	अनुगच्‍च्छन्तो	अनुगच्छन्तो	1	att of vism vol2	anugaccchanto ==> anugacchanto	2026-11-03
+e0104n.att.xml	vs0a	errata	सीलसमाधिपञ्मासङ्खातं	सीलसमाधिपञ्ञासङ्खातं	1	att of vism vol2	sīlasamādhipañmāsaṅkhātaṃ==>Sīlasamādhipaññāsaṅkhātaṃ	2026-11-03
+s0201m.mul.xml	mn1	typo	natthtththi	natthi	0			2026-11-03
+s0201m.mul.xml	mn1	typo	ntntti	nti	0			2026-11-03
+s0201m.mul.xml	mn1	typo	passatāe	passato	2		check komyoji and ms	2026-11-03
+s0202m.mul.xml	mn2	typo	abhiṅkharitvā	abhisaṅkharitvā	0			2026-11-03
+s0202m.mul.xml	mn2	typo	Ettāvattā	Ettāvatā	0			2026-11-03
+s0202m.mul.xml	mn2	typo	ntntti	nti	0			2026-11-03
+s0202m.mul.xml	mn2	typo	panānananda	panānanda	0			2026-11-03
+s0203m.mul.xml	mn3	errata	/\u0903/g	;	3			2026-11-03
+s0203m.mul.xml	mn3	typo	anapāyāe	anapāyāe	0			2026-11-03
+s0203m.mul.xml	mn3	typo	jṭhito	ṭhito	0			2026-11-03
+s0203m.mul.xml	mn3	typo	ntntti	nti	2			2026-11-03
+s0203m.mul.xml	mn3	typo	tadubhayampmppi	tadubhayaṃ	0		PTS and SC	2026-11-03
+s0301m.mul.xml	sn1	typo	ntntti	nti	3			2026-11-03
+s0301m.mul.xml	sn1	typo	अत्थ्त्थ्थि	अत्थि	0	Bhikkhunīvagga, Sīsupacālāsuttaṃ	sn1_169	2026-11-03
+s0302m.mul.xml	sn2	typo	ntntti	nti	0			2026-11-03
+s0303m.mul.xml	sn3	typo	vedayamānāe	vedayamāno	0	check ms	check ms	2026-11-03
+s0304m.mul.xml	sn4	typo	Aṭṭhasatampmppi	Aṭṭhasatampi	0	s4,225 sn36 19 Pañcakaṅgasutta PTS,SC	s4,225 sn36 19 Pañcakaṅgasutta PTS,SC	2026-11-03
+s0304m.mul.xml	sn4	typo	tampmppi	tasmimpi	0	s4,81 sn4_100 sn35 Paṭisallānasuttaṃ PTS,SC	s4,81 sn4_100 sn35 Paṭisallānasuttaṃ PTS,SC	2026-11-03
+s0402m1.mul.xml	an2	typo	ntntti	nti	0			2026-11-03
+s0402m3.mul.xml	an4	typo	ntntti	nti	0			2026-11-03
+s0403m2.mul.xml	an6	typo	 raṃ 	 rasaṃ 	0	ms 改	ms 改	2026-11-03
+s0403m2.mul.xml	an6	typo	saā	satta	0			2026-11-03
+s0508m.mul.xml	thag	typo	sampajānāe	sampajāno	0			2026-11-03
+s0509m.mul.xml	thig	typo	ntntti	nti	0			2026-11-03
+s0510m1.mul.xml	thap	errata	परिवारेट्ति	परिवारेन्ति	1		typo parivāreṭti  , "tha-ap401:7.4": "parivārenti maṁ sadā.",	2026-11-03
+s0510m1.mul.xml	thap	errata	सिध्दिपत्ता	सिद्धिपत्ता	1		Sidhdipattā==> Siddhipattā obvious typo	2026-11-03
+s0513m.mul.xml	ja1	errata	अहम्सि	अहंसि	1	jataka	ahamsi ==>ahaṃsi    'ms' rare combi	2026-11-03
+s0515m.mul.xml	mnd	errata	 प्वा	 वा	1	mnd	pvā==>vā "mnd1:43.2"	2026-11-03
+s0515m.mul.xml	mnd	typo	ntntti	nti	0			2026-11-03
+s0516m.mul.xml	cnd	errata	द्पणिधि	पणिधि	1	cnd	dpaṇidhi==>paṇidhi "cnd5:13.2":	2026-11-03
+s0517m.mul.xml	ps	typo	ntntti	nti	0			2026-11-03
+s0517m.mul.xml	ps	errata	चक्खुव्त्त्ञ्‍ञाणं	चक्खुविञ्ञाणं	1	ps	Cakkhuvttññāṇaṃ "ps1.1:31.13": "Cakkhuviññāṇaṁ abhiññeyyaṁ;",	2026-11-03
+s0517m.mul.xml	ps	errata	पटिप्पस्स्द्धी	पटिप्पस्सद्धी	1	ps	paṭippassddhī==>paṭippassaddhī	2026-11-03
+s0517m.mul.xml	ps	errata	पलाससन्ठरो	पलाससन्थरो	1	ps	palāsasanṭharo==>palāsasantharo	2026-11-03
+vin02m2.mul.xml	mv	errata	उत्तरज्तू	उत्तरतू	1		uttarajtū => uttaratū , checked suttacentral, 出現兩次，第二次打錯	2026-11-03
+vin02m2.mul.xml	mv	errata	जिनोब्र्वि	जिनोब्रवि	1		Jinobrvi==>Jinobravi , bilara-data "pli-tv-kd9:7.20.235": "“adhamman”ti jinobravi.",	2026-11-03
+vin02m3.mul.xml	cv	errata	इदमब्र्वि	इदमब्रवि	1		Idamabrvi Idamabravi	2026-11-03
+vin02m3.mul.xml	cv	errata	नच्सादेसि	नच्छादेसि	1		Nacsādesi==>Nacchādesi,  typo , 6 occurence	2026-11-03
+vin02m4.mul.xml	pvr	errata	पप्णत्तियो 	पण्णत्तियो	1		Papṇattiyo  ==> Paṇṇattiyo  , typo , 2 occurrence, see above sentence	2026-11-03

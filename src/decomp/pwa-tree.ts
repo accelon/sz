@@ -71,8 +71,8 @@ const main = async (): Promise<void> => {
   const started = Date.now();
   const keys = (db.query('select dict_key from pwa').all() as { dict_key: string }[])
     .map((r) => r.dict_key)
-    .filter((w) => w.length >= 3 && /^[a-zA-Zāīūṅñṭḍṇḷṃ]+$/.test(w));
-  console.log(`pwa 詞形（≥3 字母）：${keys.length}`);
+    .filter((w) => w.length >= 2 && /^[a-zA-Zāīūṅñṭḍṇḷṃ]+$/.test(w)); // 2 字母也要：ca、me、te… 是最常見的虛詞
+  console.log(`pwa 詞形（≥2 字母）：${keys.length}`);
 
   const atomCount = new Map<string, number>();
   const byDepth = new Map<number, number>();

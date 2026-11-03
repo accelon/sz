@@ -16,6 +16,9 @@ raw/_zips/
 data/*
 !data/cs-index/
 
+# veda 子專案：來源副本與中間產物可重建（bun run veda/src/fetch.ts）
+veda/raw/
+
 # 本機設定與暫存
 .local/
 *.log
@@ -25,3 +28,7 @@ data/*
 # Python
 __pycache__/
 *.pyc
+# 本機書庫與外部 clone 不進版控（adb／exe／bilara-data 都可重建或太大）
+accelon26/
+raw/
+novel/
