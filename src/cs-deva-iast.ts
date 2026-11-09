@@ -111,7 +111,7 @@ function align(a: string[], b: string[]): Int32Array {
         else j++;
       }
       // 錨點之間對不上的字，按位置一對一換（版本異讀就是這樣換掉的）；
-      // 多出來的舊詞保留、多出來的新詞不用——不插入，免得破壞 `<詞>` 的詞邊界。
+      // 多出來的舊詞保留、多出來的新詞不用——不插入，免得破壞 `<辭>` 的詞邊界。
       let pa = -1, pb = -1;
       for (const [mi, mj] of [...pairs, [n, m] as [number, number]]) {
         const k = Math.min(mi - pa - 1, mj - pb - 1);
@@ -247,7 +247,7 @@ for (const book of books) {
 
   const t0 = performance.now();
   const map = align(oldWords, newWords);
-  // 只做 1:1 換字：`<詞 b j>` 的表面字要對得上詞譜，插入新詞會破壞詞邊界（作者要求不硬切詞）。
+  // 只做 1:1 換字：`<辭 b j>` 的表面字要對得上詞譜，插入新詞會破壞詞邊界（作者要求不硬切詞）。
   // 對不到的新詞不用（多為夾註、重複語句、校勘異文），計數後回報。
   if (process.env.DBG === "kept") {
     const keptAt: number[] = [];

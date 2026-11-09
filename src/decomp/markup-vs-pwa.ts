@@ -4,7 +4,7 @@
  *
  *   bun run src/decomp/markup-vs-pwa.ts
  *
- * data/cs 的 <詞 b="rAj|ghM" j="0">rājagahaṃ</詞> 是 adb 自己的分段（儉約巴利編碼），
+ * data/cs 的 <辭 b="rAj|ghM" j="0">rājagahaṃ</辭>（舊資料是 <詞>）是 adb 自己的分段（儉約巴利編碼），
  * 拿來跟 pwa 的樹比，看兩者多常不一致。
  */
 import { readFileSync, readdirSync } from 'node:fs';
@@ -43,7 +43,7 @@ const parts = new Map<string, string[]>();
   }
 }
 
-const TAG = /<詞[^>]*b="([^"]*)"[^>]*>([^<]*)<\/詞>/g;
+const TAG = /<[詞辭][^>]*b="([^"]*)"[^>]*>([^<]*)<\/[詞辭]>/g;
 let tags = 0;
 let decoded = 0;
 let same = 0;

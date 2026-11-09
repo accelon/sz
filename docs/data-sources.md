@@ -48,6 +48,9 @@ data/sc-dict/pli2en_pts.json   16.8 MB（原始）
 data/sc-dict/pts.tsv.gz        2.3 MB（去 HTML、word + text 兩欄，16,100 列）
 ```
 
+成品：`D:\2026\sz\accelon26\ped.adb`（17.4 MiB，16,781 筆、246,306 行、`dbtype=2` 字典庫；
+125,808 次出處中 78,809 次已接 `cs.adb` 的 `<聯 i="cs?塊.段">`）；建置、標籤與限制見 [`ped-adb.md`](ped-adb.md)。
+
 `bun run src/decomp/pts-compare.ts` 的結果：
 
 | | sc-data（精修） | 本地 pe3（未修） |

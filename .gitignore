@@ -32,3 +32,9 @@ __pycache__/
 accelon26/
 raw/
 novel/
+# novel2 是《軸》的小說構思（與三藏建置無關；同 novel/，暫不進版控）
+novel2/
+
+# decomp 分析產物（2026-11-03，放根目錄；由 src/decomp/*.py 從 data/cs 與外部詞典重生）
+# 例：unique*.tsv、unsplittable*.tsv、sandhi-split.tsv。體積大、非建置輸入，暫不進版控。
+/*.tsv

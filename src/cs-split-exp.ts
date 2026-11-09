@@ -45,7 +45,8 @@ for (const book of BOOKS) {
     process.exit(2);
   }
   const text = readFileSync(src, 'utf8').replace(/\r\n?/g, '\n').trimEnd();
-  const out = text.replace(/<詞[^>]*>([^<]*)<\/詞>/g, (_m, w: string) => {
+  // cs 的詞譜在 2026-11-06 由 `<詞>` 改成 `<辭>`；舊備份仍是 `<詞>`，兩種都吃。
+  const out = text.replace(/<[詞辭][^>]*>([^<]*)<\/[詞辭]>/g, (_m, w: string) => {
     words++;
     const parts = splits.get(w.toLowerCase());
     if (!parts) return w;
@@ -55,4 +56,4 @@ for (const book of BOOKS) {
   lines += out.split('\n').length;
   writeFileSync(join(OUT, `${book}.xml`), out + '\n', 'utf8');
 }
-console.log(`dn1–dn3：<詞> ${words}，拆開 ${split}（${((split / words) * 100).toFixed(1)}%）；輸出 ${lines} 行 → data/cs-split/`);
+console.log(`dn1–dn3：<辭> ${words}，拆開 ${split}（${((split / words) * 100).toFixed(1)}%）；輸出 ${lines} 行 → data/cs-split/`);

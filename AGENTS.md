@@ -115,3 +115,9 @@ from han import HAN, han_chars, han_count
   同一天延續就往下加，索引在 `docs/journal/README.md`。
 - 作者：年紀大了，多留點東西給後進；規格看 `docs/addressing.md`，原則看 `docs/insights.md`。
 
+---
+
+## 語義分句與軌號（canonical）
+
+指導性原則見 `D:\2026\agent-norms\shutonggui.md`（書同軌）：句級地址、最小切分、
+軌號（`track_id`）與 crosswalk。本區只放實作與資料，不另存一份原則再改。

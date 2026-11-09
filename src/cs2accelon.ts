@@ -7,7 +7,7 @@
  *
  * 與其他譯本不同，這一批的來源是 **provident-pali**（儉約巴利）＋**詞譜**，所以要：
  *   ① 轉成 IAST（作者 2026-11-02：「第一步先把 provident-pali 轉成 IAST」）
- *   ② 保留「拆詞／連音」資訊：`<詞 b="詞譜分段" j="連音編號">正詞</詞>`（見 src/provident-text.ts）
+ *   ② 保留「拆詞／連音」資訊：`<辭 b="詞譜分段" j="連音編號">正詞</辭>`（見 src/provident-text.ts）
  *   ③ 塊 id 唯一化：義注加 `a`、複注加 `t`、再複注加 `x`（作者 2026-11-02）
  *   ④ provident-pali 只在轉檔時用，adb 與閱讀器不引用它
  *
@@ -27,7 +27,7 @@ const BUILD = join(ROOT, 'out');
 
 /**
  * 由 `books/*.xml` 產生的書（`src/books2off.ts`）：來源本來就是 IAST，不是儉約巴利，
- * 所以不能再過 provident 解碼器（會把 `buddhaṃ` 解成別的字），只做轉義、不產 `<詞>`。
+ * 所以不能再過 provident 解碼器（會把 `buddhaṃ` 解成別的字），只做轉義、不產 `<辭>`。
  */
 const IAST_BOOKS = new Set<string>();
 {
@@ -128,7 +128,7 @@ const LETTER_G = /[\p{L}\p{M}]+/gu;
 /** 夾文後面緊接的文字算節點名字的一部分（與共用轉換器的 JOIN_FOLLOW 一致）。 */
 const JOIN_FOLLOW = new Set(['ak', 'bk', 'ck', 'ckan', 'cksn']);
 
-/** 一行 off → 文字片段（標籤外的文字、以及夾文）；`name`＝這是節點名字（不會有 `<詞>`）。 */
+/** 一行 off → 文字片段（標籤外的文字、以及夾文）；`name`＝這是節點名字（不會有 `<辭>`）。 */
 function runs(line: string): { text: string; name: boolean }[] {
   const out: { text: string; name: boolean }[] = [];
   let i = 0;
@@ -177,7 +177,7 @@ interface CheckRow {
   ciBad: string[];
 }
 
-/** 逐書驗收：行、段、塊、詞數，以及 `<詞 b j>` 與夾文是否一致。 */
+/** 逐書驗收：行、段、塊、詞數，以及 `<辭 b j>` 與夾文是否一致。 */
 function checkBooks(): CheckRow[] {
   const src = existsSync(join(ROOT, 'out', 'cs-src'))
     ? join(ROOT, 'out', 'cs-src')
@@ -211,15 +211,15 @@ function checkBooks(): CheckRow[] {
       segs: [count(/\^n\d/g, s), count(/<段 /g, o)],
       chunks: [count(/\^(ck|ckan|cksn)/g, s), count(/<塊 |<小塊 /g, o)],
       words: [srcWords, outWords],
-      ci: counted.reduce((n, l) => n + (l.match(/<詞 /g) ?? []).length, 0),
-      ciFallback: counted.reduce((n, l) => n + (l.match(/<詞 f=/g) ?? []).length, 0),
+      ci: counted.reduce((n, l) => n + (l.match(/<辭 /g) ?? []).length, 0),
+      ciFallback: counted.reduce((n, l) => n + (l.match(/<辭 f=/g) ?? []).length, 0),
       ciBroken: 0,
       ciBad: [],
     };
     if (!RAW_CST) {
     // 一致性：b（詞譜分段）＋ j（連音編號）→ 詞譜 → 正詞，要對得上夾文；
     // 另一條獨立路徑是把夾文用 fromIAST 轉回儉約巴利再比。兩邊相等才算過。
-    for (const m of o.join('\n').matchAll(/<詞 b="([^"]*)" j="([^"]*)">([^<>]*)<\/詞>/g)) {
+    for (const m of o.join('\n').matchAll(/<辭 b="([^"]*)" j="([^"]*)">([^<>]*)<\/辭>/g)) {
       const [, bases, joiners, display] = m;
       const parts = bases.split('|');
       const digits = joiners.split(',');
@@ -247,7 +247,7 @@ function checkBooks(): CheckRow[] {
       }
     }
     }
-    // 期望的詞譜數：正文（非節點名字）裡的詞譜詞。名字裡的詞譜只轉 IAST，不建 `<詞>`。
+    // 期望的詞譜數：正文（非節點名字）裡的詞譜詞。名字裡的詞譜只轉 IAST，不建 `<辭>`。
     // 另外 `data/cs-decomp/splits.tsv` 會**補**上沒有詞譜的詞，所以實際數只會多、不會少。
     if (!RAW_CST && row.ci < expectCi && row.ciBad.length < 5) {
       row.ciBad.push(`詞譜數 ${row.ci} < 正文詞譜詞 ${expectCi}（有掉字）`);

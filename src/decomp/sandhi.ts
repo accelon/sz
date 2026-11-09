@@ -1,7 +1,7 @@
 /**
  * 詞譜（b／j）的產生與驗證。**全世界的拆法都要經過這裡**。
  *
- * 一個詞譜長這樣：`<詞 b="adVDAn|mgVg|pWIpnVnO" j="0,3">addhānamaggappaṭipanno</詞>`
+ * 一個詞譜長這樣：`<辭 b="adVDAn|mgVg|pWIpnVnO" j="0,3">addhānamaggappaṭipanno</辭>`
  *   b＝儉約巴利（provident）詞件，`|` 分隔
  *   j＝連音編號，b[i] j[i] b[i+1] j[i+1]…（最後一個詞件後面沒有 j）
  * 還原：`orthOf(b.join(j))` → 儉約巴利正詞 → `toIAST` → 夾文。
@@ -121,7 +121,7 @@ export const formulaOf = (orth: string, iastParts: string[]): string | null => {
     : null);
 };
 
-/** 詞譜 → `{ b, j }`（寫進 `<詞>` 的兩個屬性）。 */
+/** 詞譜 → `{ b, j }`（寫進 `<辭>` 的兩個屬性）。 */
 export const splitFormula = (formula: string): { b: string; j: string } => {
   const parts = formula.split(/(\d+)/);
   const b = parts.filter((_, i) => i % 2 === 0).join('|');

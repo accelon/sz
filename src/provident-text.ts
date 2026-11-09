@@ -1,5 +1,8 @@
 /**
- * 儉約巴利（provident-pali）→ IAST 的正文轉寫器，順便把「詞譜」留成 `<詞>`。
+ * 儉約巴利（provident-pali）→ IAST 的正文轉寫器，順便把「詞譜」留成 `<辭>`。
+ *
+ * 2026-11-06 作者指示：cs 的詞譜標籤由 `<詞>` 改成 `<辭>`，和詞典的 `<詞>` 詞頭分開
+ * （閱讀器兩種都認；只有 cs 產 `<辭>`，cyd／hydzd 等詞典仍用 `<詞>`）。
  *
  * 只有**轉換時**用到 provident-pali（`D:\2023\provident-pali`，作者自研的套件）；
  * adb 裡不引用它，閱讀器也不需要它——作者 2026-11-02 指定：
@@ -7,7 +10,7 @@
  *
  * 一個帶數字的詞（詞譜，例 `pd3Upm` ＝ pada ＋ 3 ＋ upama）輸出成：
  *
- *     <詞 b="pd|upm" j="3">padopama</詞>
+ *     <辭 b="pd|upm" j="3">padopama</辭>
  *
  *   b＝詞譜的**原始分段**（`pd`、`upm`，儉約巴利），`|` 分隔
  *   j＝連音編號（`3`），和 b 一一對應：b[0] j[0] b[1] j[1] b[2]…
@@ -68,7 +71,7 @@ const orth = (tok: string): string => {
   return tok.replace(/\d+/g, '');
 };
 
-/** 一個詞譜 token → `<詞 b j>顯示</詞>`（plain 模式只要顯示）。 */
+/** 一個詞譜 token → `<辭 b j>顯示</辭>`（plain 模式只要顯示）。 */
 const formulaWord = (tok: string, plain: boolean): string => {
   let display = iast(orth(tok));
   if (display.includes('??')) display = iast(tok.replace(/\d+/g, '')); // 詞譜壞掉：至少把字轉出來
@@ -80,14 +83,14 @@ const formulaWord = (tok: string, plain: boolean): string => {
   const joiners = parts.filter((_, i) => i % 2 === 1);
   if (bases.length !== joiners.length + 1 || bases.some((s) => !s)) {
     // 形狀不完整（來源本身壞掉，如 `aAdyO868`）：整串留著
-    return `<詞 f="${escapeText(tok)}">${display}</詞>`;
+    return `<辭 f="${escapeText(tok)}">${display}</辭>`;
   }
-  return `<詞 b="${bases.join('|')}" j="${joiners.join(',')}">${display}</詞>`;
+  return `<辭 b="${bases.join('|')}" j="${joiners.join(',')}">${display}</辭>`;
 };
 
 /**
  * 一段 off 正文 → Accelon 文字。
- * `plain`＝現在渲染的是節點名字（書名／塊名），不要插 `<詞>`。
+ * `plain`＝現在渲染的是節點名字（書名／塊名），不要插 `<辭>`。
  */
 export const providentText = (s: string, plain = false): string => {
   // 來源殘留：phandler 的 `${x}` 沒值時留下字面的 undefined（實測 3 處，snp0a×2、sn1a×1）
@@ -103,7 +106,7 @@ export const providentText = (s: string, plain = false): string => {
     else {
       const w = iast(tok);
       const sup = plain ? undefined : SPLIT.get(w.normalize('NFC'));
-      out += sup ? `<詞 b="${sup.b}" j="${sup.j}">${w}</詞>` : w;
+      out += sup ? `<辭 b="${sup.b}" j="${sup.j}">${w}</辭>` : w;
     }
     last = m.index + tok.length;
   }

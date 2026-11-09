@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 /**
  * 預覽：把 `data/cs-decomp/splits.tsv` 套到 `data/cs/<書>.xml` 的**副本**上，
- * 產生 `<詞 b j>` 已經補好的 XML，放在 `out/cs-decomp-preview/`。
+ * 產生 `<辭 b j>`（舊資料是 `<詞>`；2026-11-06 起 cs 詞譜用 `<辭>`）已經補好的 XML，放在 `out/cs-decomp-preview/`。
  *
  *   bun run src/decomp/preview.ts            # 預設 dn1
  *   bun run src/decomp/preview.ts mn1 an1    # 指定書
@@ -14,7 +14,7 @@ import { join } from 'node:path';
 import { baseIAST, verifies, toOrth, joinFormula } from './sandhi';
 import { PREVIEW_DIR, inventory, OUT_DIR } from './sources';
 
-const TOKEN_G = /<詞 ([^>]*)>([^<]*)<\/詞>|<[^>]*>|([^<]+)/g;
+const TOKEN_G = /<[詞辭] ([^>]*)>([^<]*)<\/[詞辭]>|<[^>]*>|([^<]+)/g;
 const WORD_G = /[\p{L}\p{M}]+/gu;
 
 interface Row {
@@ -51,7 +51,7 @@ const main = (): void => {
     let tokens = 0;
     let added = 0;
     const out = src.replace(TOKEN_G, (whole, attrs: string | undefined, display: string | undefined, text: string | undefined) => {
-      if (whole.startsWith('<詞 ')) {
+      if (/^<[詞辭] /.test(whole)) {
         before++;
         after++;
         return whole;
@@ -65,7 +65,7 @@ const main = (): void => {
         if (!orth || !verifies(joinFormula(hit.b, hit.j), orth)) return w;
         after++;
         added++;
-        return `<詞 b="${hit.b}" j="${hit.j}">${w}</詞>`;
+        return `<辭 b="${hit.b}" j="${hit.j}">${w}</辭>`;
       });
     });
     void inv;

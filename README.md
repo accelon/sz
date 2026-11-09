@@ -3,20 +3,21 @@
 這個 repo 放**新三藏**的來源資料、轉換與打包腳本。通用的 adb 讀寫／打包工具在隔壁的
 [`adb-converter`](../adb-converter) 工作區；閱讀器與官網也由那邊維護。
 
-> **現況（2026-11-02）**：來源方向是**巴利三藏平行文本**（巴利原文＋各語譯本，共十種）。
-> 定位標準已定：**`塊.段`（`ck.n`）**——`ck` 是 chunk、`n` 是段號，例 `a6.7` ＝
-> 增支部第六集第 7 段；這個錨跨語言穩定，和原書頁碼無關。頁 id（`<頁 id="塊.段">`）**之後才補**。
-> 已經轉好兩個來源的**文字層**（見 §1），尚未打包成 adb。
+> **現況（2026-11-09）**：十種譯本都已轉好並打包成 adb，放 `accelon26/`
+> （`cs.adb`、`ped.adb`…；adb 不進 git）。**接手先讀 [`HANDOVER.md`](HANDOVER.md)**：
+> 現況、2026-11-06 的 cs 詞譜 `<詞>` → `<辭>`、重建與驗收指令、待辦與已知的坑。
+> 定位標準仍是 **`塊.段`（`ck.n`）**——`ck` 是 chunk、`n` 是段號（例 `a6.7`），
+> 跨語言穩定、和原書頁碼無關；頁 id（`<頁 id="塊.段">`）之後才補。
 
 - 版控：<https://github.com/accelon/sz>（分支 `main`）
-- 成品：`D:\accelon3\sz.adb`（建置後才會有；不進 git）
+- 成品：`D:\2026\sz\accelon26\sz.adb`（建置後才會有；不進 git；所有 adb 一律放 `accelon26/`）
 - 母工作區：`D:\2026\adb-converter`（共用工具、紀律、版本紀錄）
 
 ## 1. 來源與現況
 
 | 譯本 | 來源（唯讀） | 轉出的文字 | 段序列 | 狀態 |
 |---|---|---|---|---|
-| **巴利底本（VRI／CST4）** | `D:\2023\cs\off`（`*.cs.off`，儉約巴利＋詞譜） | `data/cs/`（219 冊） | ✅ | ✅ 轉 IAST、保留詞譜（404,072 個 `<詞>`） |
+| **巴利底本（VRI／CST4）** | `D:\2023\cs\off`（`*.cs.off`，儉約巴利＋詞譜） | `data/cs/`（219 冊） | ✅ | ✅ 轉 IAST、保留詞譜（437,557 個 `<辭>`；2026-11-06 由 `<詞>` 改名） |
 | 巴利原文（SuttaCentral） | `D:\2023\sc\sc-pli.offtext`（`*.ms.off`） | `data/sc/` | ✅ | ✅ |
 | 緬譯巴利藏 | `D:\2023\cs-mm\off`（`*.mm.off`＋`*-fn.off`） | `data/cs-mm/`＋註文檔 | ✅ | ✅ |
 | 元亨寺南傳大藏經 | `D:\2023\cb-n\off`（`*.yh.off`＋`*.yh.tsv`） | `data/yh/`＋註文檔 | ✅ | ✅ |
@@ -31,7 +32,7 @@
   [`docs/adb/off-to-accelon.md`](../adb-converter/docs/adb/off-to-accelon.md)；
   泰譯（`cllk`）已於 2026-11-02 搬到 `D:\2026\cllk`（四部＋小部 31 冊），不在本區。
 - **巴利底本 `cs`** 是另一條管線：來源是儉約巴利＋詞譜，`src/cs2accelon.ts` 轉成
-  IAST，並把每個詞譜詞留成 `<詞 b="詞譜分段" j="連音編號">正詞</詞>`（拆詞／連音不丟）。
+  IAST，並把每個詞譜詞留成 `<辭 b="詞譜分段" j="連音編號">正詞</辭>`（拆詞／連音不丟）。
   provident-pali 只在轉檔時用，adb 不引用它。範圍 **219 冊**（律、四部、小部、阿毘達磨及其注疏；`off/` 57 冊＋由 `books/`／`ro/` 產生 82 冊），
   注疏的塊 id 在來源是壞的，轉換前先跑 `src/cs-atta-ids.ts` ＋ `src/cs-atta-normalize.ts`
   （見 [`docs/steps.md`](docs/steps.md) §1.1、[`docs/known-issues.md`](docs/known-issues.md) #1）。
@@ -54,8 +55,10 @@
 | `src/` | 轉檔／patch／pack 腳本（建置要能從零重跑） |
 | `data/` | **各譯本轉好的文字**（`data/<db>/`，由 `src/off2accelon.ts` 產生；`data/cs/` 由 `src/cs2accelon.ts`）與小型對照表；大檔與 zip 不進版控 |
 | `data/cs-mm/` | 緬譯：`<書>.xml`、`<書>-fn.xml`、`00.xml`（其他庫同結構，`yh/` 也有 `-fn.xml`） |
-| `accelon26/` | **本機書庫**：10 個 `<db>.adb`（2026-11-02 全部建全文索引）＋ `accelon26.exe`（本工作區測試版；`accelon26.exe.old-2026-11-02` 是舊版）；`src/pack.ts` 產生 |
+| `accelon26/` | **本機書庫（所有 adb 都放這裡）**：各譯本 `<db>.adb`、`cs.adb`、`cs-lex.adb`、`ped.adb` 等＋ `accelon26.exe`（2026-11-09 RC5 複本；`accelon26.exe.old-2026-11-02` 是更早的備份）；`src/pack.ts` 產生 |
 | `docs/` | 這一庫的 steps、來源說明、限制；[`docs/cs-pali-report.md`](docs/cs-pali-report.md) 是巴利底本 `D:\2023\cs` 與儉約巴利的理解報告；[`docs/tipitaka-lk.md`](docs/tipitaka-lk.md) 評估僧伽羅本、[`docs/opentipitaka.md`](docs/opentipitaka.md) 記錄 OpenTipitaka 的資料庫與抽出的對照表；小毛病記在 [`docs/known-issues.md`](docs/known-issues.md) |
+| `docs/ped-adb.md` | **SC 精修 PTS PED → `D:\2026\sz\accelon26\ped.adb`**：16,781 筆、246,306 行、17.4 MiB；第一棵樹 `$詞`；標籤 `詞/同形/語法/義/複合/詞源/出處/參見/來源`；`<出處>` 78,809 次接 `cs.adb` 的 `<聯 i="cs?塊.段">`；15,991 個詞頭也加進 lemma map |
+| `docs/ped-todo.md` | **PED 待辦規劃與結果**：去 HTML/entity 已完成、PTS→cs 連結 62.6%、注疏待做、GRETIL 盤點 |
 | `data/cs-index/` | 外部化的參照表：`tables.tsv`（表→書／書名）、`suttas.tsv`（六經→SC 編號）、`pages.tsv`（紙本頁碼→塊／段／句，113,768 列）、`variants.tsv`（異文 21,294 條）；由 `src/otp-index.ts`／`src/cs-pages.ts`／`src/cs-variants.ts` 產生 |
 | `docs/canon-status.md` | **現況總表**：範圍、數字、外部化清單、驗證指令、已知限制 |
 | `docs/cs-mm-tokenizer.md` | 緬譯 `cs-mm` 的分詞實測（ICU `Intl.Segmenter('my')`、token 數、已知限制） |
@@ -63,6 +66,10 @@
 | `docs/kmj-tokenizer.md` | 日譯 `kmj` 的分詞實測（ICU `Intl.Segmenter('ja')`、token 數、已知限制） |
 | `docs/cs-token-count.md` | `cs` 842k 相異 token 的組成與「拆詞」策略（不用 provident 反推） |
 | `docs/lex-pane.md` | `lex-pane` 詞抽屜：詞形／詞譜／位置／lex 詞條／例句／詞件樹 |
+| `docs/grammar-arsenal.md` | **文法武器清單**：手上可用的文法資料、程式與量測（詞譜／拆詞／komyoji／pe5／詞典／索引／UI），按「降低頭痛率」排序，含覆蓋、可信度、缺口與下一步 |
+| `docs/sandhi-code.md` | **接縫碼原型**：經文存「詞件＋規則數字」（`sappi0phāṇitaṃ8eva`），tokenizer 切數字、渲染解回組合詞；11 條規則、dn1 實測與 `#` 引用例外 |
+| `docs/sandhi-stats.md` | **接縫統計**：四種窗口（1+1／2+1／1+2／2+2）的 `context → sandhi 結果` 全表，按頻次編碼；1+1 只要 3,547 個 pattern，前 500 名覆蓋 97.9% |
+| `docs/sandhi-codebook.md` | **1+1 codebook 實測**：全藏快速投影 10.25M 詞；切後頭痛 40%→4.3%（PMD len≥8），surface unique 914,104→96,935，lemma 化後只剩 **14,851 個已知詞幹** |
 | `docs/addressing.md` | **定址規格**：`塊.段`／`塊.段:句`／`塊.段:句#詞` 的語法、解析方式、外部化清單 |
 | `docs/journal/` | **工作札記（按日期）**：每天做了什麼、為什麼、數字、留給後人的待辦 |
 | `docs/insights.md` | **設計理念與洞察紀錄**：為什麼先做句、抓大放小、寧細勿粗、SC 的設計問題、詞庫方向 |
@@ -101,12 +108,14 @@ bun run src/pack.ts cs-mm      # 只打一個
 - 行序：`00.xml` → 各書（canon 順序）→ 該書的 `<書>-fn.xml`（註文緊接在正文後）。
 - 驗證：`bun run src/pack.ts` 會開回來檢查行數與 tokens；`bun run src/toc-check.ts`
   會用閱讀器的 `loadTree`／`buildTree` 檢查目錄樹層級與節點名。
-- 資料夾裡另有一個 `accelon26.exe`（**2026-11-02 本工作區測試版**，不是 hardlink）：
+- 資料夾裡另有一個 `accelon26.exe`（**2026-11-09 RC5 的複本**，不是 hardlink）：
   桌面版會列出「工作目錄與 exe 所在資料夾」的 `*.adb`，所以這個資料夾可以直接當書庫開。
-  舊版是 `accelon26.exe.old-2026-11-02`；`D:\accelon3` 的正式 exe 尚未換成這一顆。
+  這一顆認得 `<辭>`（`word-spec.ts` 的 `tag !== '詞' && tag !== '辭'`）；
+  `accelon26.exe.old-2026-11-02` 是更早的備份。
 
 ## 5. 開工前先讀
 
+0. [`HANDOVER.md`](HANDOVER.md)（**交接手冊**：現況、已完成、指令、待辦與坑）
 1. `D:\2026\adb-converter\AGENTS.md`（母區規則）
 2. `D:\2026\adb-converter\docs\adb\adb-knowhow.md`（共用 know-how）
 3. `D:\2026\adb-converter\docs\adb\adb-version-log.md`（版本紀錄）

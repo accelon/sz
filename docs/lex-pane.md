@@ -1,13 +1,14 @@
-# lex-pane（詞抽屜）現況（2026-11-03）
+# lex-pane（右欄「詞」分頁）現況（2026-11-03）
 
-> 右側詞抽屜；**沒有改 `dict-pane`**。程式：`ts/src/accelon26/lex-pane.ts`。
+> 右欄分頁，不是浮動抽屜；**沒有改 `dict-pane`**。程式：`ts/src/accelon26/lex-pane.ts`、
+> 分頁鉤子 `lex-hooks.ts`、模板 `#lexInTab`／`data-tab="lex"`。
 
 ## 1. 觸發
 
-- 本文只有 cs 的 `<詞 b j>` 會渲染成 `.word` span。
-- 單擊 `.word` → 開 `#lexPane`。
+- 本文只有 cs 的 `<辭 b j>`（舊版是 `<詞 b j>`，閱讀器兩種都認）會渲染成 `.word` span。
+- 單擊 `.word`，或精讀模式點 ruby（`accelon26:lexword`）→ 切到右欄「詞」分頁。
 - 拖曳選取時不搶（`selection.isCollapsed` 檢查）。
-- 關閉：× 或 Esc。
+- 分頁沒有關閉鈕；切到別的分頁就收起來。
 
 ## 2. 顯示內容
 
@@ -23,7 +24,7 @@
 
 ## 3. 已驗證
 
-實測 cs `tajjanīyakammaṃ`：
+實測 cs `tajjanīyakammaṃ`（lex.adb 在 catalog 時）：
 
 ```text
 位置 cv1.1:1#1
@@ -41,15 +42,14 @@ tajjanīyakammaṃ
 - 例句是 token postings 的前幾句，不是人工標註例句庫。
 - 詞件樹只拆 `+`，不是完整詞族網路。
 - 詞形 lookup 先找 `lex.adb` 的 `attributes/塊.w`；找不到就只顯示 b/j。
-- `lex.adb` 必須在 catalog／桌面清單；file:// 版要自己開 lex。
+- `lex.adb` 必須在 catalog／桌面清單；dev server 只開 cs-lex 時查不到 lex 詞條。
 - 位置目前是 adb 行內算出的 `塊.段:句#詞`；句子界線以 adb 行為準，不是語言學斷句。
 
 ## 5. 測試
 
-`lex-pane` 沒有獨立單元測試；以 `build/tmp-lexpane-test.ts`（CDP）驗證：
+`lex-pane` 沒有獨立單元測試；以 `build/tmp-lex-tab-test.ts`（CDP）驗證：
 
-- cs `.word` 543 個
-- 單擊 `tajjanīyakammaṃ`
-- lex 詞條與位置都出現
+- cs-lex `.word` 1,006 個；精讀 ruby 41 個
+- 單擊 `.word`／ruby 都切到 `data-tab="lex"`，`#lexInTab .lexWord` 有詞形
 
 正式回歸還缺一個穩定的 browser test。

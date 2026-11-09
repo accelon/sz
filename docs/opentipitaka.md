@@ -222,6 +222,71 @@ cakkhuviññāṇagocaravaṇṇāyatanabhāvato
 6. `dictionaries.db` 目前有 **418 MB 的 `-wal`** 沒 checkpoint；用 `mode=ro` 讀得到已提交的資料，
    但要複製檔案時**不能只複製主檔**。
 
+### 10.5 取用方式（2026-11-03 更新）
+
+**位置**（Windows，MSIX 版）：
+
+```text
+C:\Users\<user>\AppData\Roaming\Sunanda\OpenTipitaka\openTipitaka\databases\dictionaries.db
+```
+
+本機是 `C:\Users\yapch\AppData\Roaming\Sunanda\OpenTipitaka\openTipitaka\databases\dictionaries.db`。
+不要只複製主檔；`-wal` 也要，或直接用唯讀連線：
+
+```python
+import sqlite3
+DB = r"C:/Users/yapch/AppData/Roaming/Sunanda/OpenTipitaka/openTipitaka/databases/dictionaries.db"
+con = sqlite3.connect(f"file:{DB}?mode=ro", uri=True)
+for k, c in con.execute("select dict_key, dict_content from pwa limit 5"):
+    print(k, c)
+```
+
+**表格角色**（`dict_key` = 詞頭，`dict_content` = HTML／純文字）：
+
+| 表 | 列數 | 我們怎麼用 |
+|---|---:|---|
+| `pwa` | 956,936 | 詞形 → 拆詞；`a-b-c(stem, stem)`。2026-11-03 修了 parser：**先對完整 content 用 `-` 切，再逐段去掉 `(...)`**；沒有連字號、但括號有 ≥2 詞幹的 18,318 條也要收 |
+| `dpd` | 88,785 | 詞頭的語法＋`a + b + c` 結構（73,146 個複合 key）；只收詞頭，不收變格形 |
+| `pm12e` | 204,363 | PMD 英譯版；`[Pati+khipa+tabba]` 是現成切分（143,548 個複合 key），`paṭikkhipitabba → pati+khipa+tabba` |
+| `pm1` | 184,617 | PMD 緬文版；`viggaha` 內 `[ပတိ+ခိပ+တဗ္ဗ]`，要緬文轉羅馬才能直接用（目前沒接） |
+| `opentipitaka_dict_zh` | 248,032 | 中文釋義；詞幹查中文用 |
+
+**解析範例**：
+
+```python
+import re, sqlite3
+con = sqlite3.connect(f"file:{DB}?mode=ro", uri=True)
+
+# pwa：連字號在「每個詞件」後面都可能有括號
+for k, c in con.execute("select dict_key, dict_content from pwa where dict_key='khandhadhātu'"):
+    s = str(c)
+    if "-" in s:
+        parts = [x.split("(")[0].strip() for x in s.split("-")]
+        parts = [x for x in parts if x]
+    print(parts)   # ['khandha', 'dhātu']
+
+# pm12e：羅馬字複合結構
+pat = re.compile(r"\[([^\]]+)\]")
+for k, c in con.execute("select dict_key, dict_content from pm12e where dict_key='paṭikkhipitabba'"):
+    for m in pat.finditer(str(c)):
+        parts = [x.strip() for x in m.group(1).split("+") if x.strip()]
+        print(k, parts)   # paṭikkhipitabba ['Pati', 'khipa', 'tabba']
+```
+
+**誰在用**：`src/decomp/whole-canon-lemma-stats.py`（pwa＋dpd＋pm12e＋lemma）、
+`src/decomp/sandhi-dp.py`（pwa units＋dpd/pm12e keys）、`src/decomp/unsplittable.py`、
+`src/decomp/export-unique*.py`。詞形→lemma 的中間產物是 `out/lemma-pwa.tsv`（956,935 列），
+不是 DB 裡的表。
+
+**已知限制**：`pwa` 的連字符是還原連聲後的切點，不等於原文 span；`pm12e` 的前綴
+（`Na`、`Ava`）只是構詞層，不等於詞組；`pm1` 緬文要轉寫。`dictionaries.db` 會隨 App
+更新，數字以實測為準。
+
+> SuttaCentral 的 **PTS PED 精修版**不在 `dictionaries.db`：本地是
+> `data/sc-dict/pli2en_pts.json`（16.8 MB、16,100 條），另有去 HTML 的
+> `data/sc-dict/pts.tsv.gz`。來源、格式與和本地 `pe3` 的比較見
+> [`data-sources.md`](data-sources.md) 的「PTS《巴利英詞典》精修版」。
+
 ## 11. 把 SC 經號接進轉換（2026-11-02）
 
 `bun run src/cs-sc.ts` → 在 `data/cs/*.xml` 的 `<塊>`／`<小塊>` 上加 **`sc="…"`**：

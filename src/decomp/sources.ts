@@ -33,14 +33,14 @@ export const bookFiles = (): string[] => {
   return BOOKS.map((b) => join(CS_OUT, `${b}.xml`));
 };
 
-/** 一段 XML 的內容：`<詞 …>顯示</詞>` 與一般文字（標籤不含內容）。 */
-const TOKEN_G = /<詞 ([^>]*)>([^<]*)<\/詞>|<[^>]*>|([^<]+)/g;
+/** 一段 XML 的內容：`<辭 …>顯示</辭>`（舊資料是 `<詞>`）與一般文字（標籤不含內容）。 */
+const TOKEN_G = /<[詞辭] ([^>]*)>([^<]*)<\/[詞辭]>|<[^>]*>|([^<]+)/g;
 const WORD_G = /[\p{L}\p{M}]+/gu;
 
 export interface WordStat {
   /** 出現在正文（沒有詞譜）的次數 */
   plain: number;
-  /** 出現在 `<詞>` 裡的次數 */
+  /** 出現在 `<辭>` 裡的次數 */
   formula: number;
   /** 出現在哪幾冊（plain 的） */
   books: Set<string>;
@@ -71,7 +71,7 @@ export const inventory = (): Inventory => {
     const book = file.slice(file.lastIndexOf('\\') + 1).replace('.xml', '');
     const xml = readFileSync(file, 'utf8');
     for (const m of xml.matchAll(TOKEN_G)) {
-      if (m[0].startsWith('<詞 ')) {
+      if (/^<[詞辭] /.test(m[0])) {
         const w = m[2].trim();
         if (!w || !WORD_G.test(w)) continue;
         WORD_G.lastIndex = 0;

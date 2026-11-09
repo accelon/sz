@@ -2,7 +2,7 @@
 /**
  * `data/sc` 的正文目前還是儉約巴利（`bVrh…`），搜尋／閱讀都不會得到 IAST。
  * 這一支只做「文字節點」轉寫：保留所有 XML 標籤與屬性，把標籤之間的文字
- * 用 `providentText(..., true)` 轉成 IAST；不插入 `<詞>`（sc 沒有逐詞語法）。
+ * 用 `providentText(..., true)` 轉成 IAST；不插入 `<辭>`（sc 沒有逐詞語法）。
  *
  *   bun run src/sc2iast.ts
  *

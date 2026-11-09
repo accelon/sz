@@ -5,7 +5,7 @@
  *   bun run src/cs-digit-exp.ts
  *
  * 格式：`addhāna0magga3paṭipanno`（數字＝分段點）。
- *   1. `<詞 b="…">`：分段位置用 pwa 的連字號形態，規則編號用舊 `D:\2023\cs\cs.ptk` 同一公式的數字。
+ *   1. `<辭 b="…">`：分段位置用 pwa 的連字號形態，規則編號用舊 `D:\2023\cs\cs.ptk` 同一公式的數字。
  *   2. 其餘正文（含書名、標題）：也用 pwa 分段，規則編號暫記 0。
  * 產物：`data/cs-split-digit/`（只實驗，不動 `data/cs`）。
  */
@@ -92,8 +92,8 @@ const joinParts = (parts: string[], ds: string): string => {
 let words = 0, marked = 0, withRule = 0;
 for (const book of BOOKS) {
   const text = readFileSync(join(ROOT, 'data', 'cs', `${book}.xml`), 'utf8').replace(/\r\n?/g, '\n').trimEnd();
-  // 1) <詞> 內：用舊 ptk 的規則編號
-  let step = text.replace(/<詞([^>]*)>([^<]*)<\/詞>/g, (_m, attrs: string, w: string) => {
+  // 1) <辭> 內（cs 詞譜；舊備份是 <詞>，兩種都吃）：用舊 ptk 的規則編號
+  let step = text.replace(/<[詞辭]([^>]*)>([^<]*)<\/[詞辭]>/g, (_m, attrs: string, w: string) => {
     words++;
     const parts = splitOf(w);
     if (!parts) return w;
@@ -105,7 +105,7 @@ for (const book of BOOKS) {
     marked++;
     return joinParts(parts, ds);
   });
-  // 2) 其餘正文（書名、標題、未標 <詞> 的詞）：也用 pwa 分段
+  // 2) 其餘正文（書名、標題、未標 <辭> 的詞）：也用 pwa 分段
   step = step
     .split(/(<[^>]*>)/)
     .map((seg, i) => (i % 2 === 1 ? seg : seg.replace(/[\p{L}\p{M}]+/gu, (w) => {
@@ -117,7 +117,7 @@ for (const book of BOOKS) {
     .join('');
   writeFileSync(join(OUT, `${book}.xml`), step + '\n', 'utf8');
 }
-console.log(`dn1–dn3：<詞> ${words}；用數字標記 ${marked}（規則編號有對到 ${withRule}）→ data/cs-split-digit/`);
+console.log(`dn1–dn3：<辭> ${words}；用數字標記 ${marked}（規則編號有對到 ${withRule}）→ data/cs-split-digit/`);
 
 
 
