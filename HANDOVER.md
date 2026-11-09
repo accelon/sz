@@ -4,7 +4,8 @@
 > `D:\2026\adb-converter\AGENTS.md`。這裡只寫「現在是什麼狀態、東西在哪、怎麼重跑、
 > 還有哪些坑」，規格與原則不重複。
 >
-> 本次交接的 commit 見 `git log -1 --oneline`（2026-11-09，`main`）。
+> 本次交接的 commit：**`86fdf09`**（2026-11-09，`main`，已 push 到
+> <https://github.com/accelon/sz>）。之後的 commit 用 `git log -1 --oneline` 看。
 
 ## 1. 一句話
 
